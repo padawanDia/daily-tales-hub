@@ -9,22 +9,20 @@ import { Session } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { useSearch } from "@/hooks/useSearch";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       console.log("Current session:", session);
     });
 
-    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -52,7 +50,6 @@ const Index = () => {
         throw error;
       }
       
-      // Map the Supabase data to match our Post interface
       const mappedPosts: Post[] = (data || []).map(post => ({
         id: post.id,
         title: post.title,
@@ -68,19 +65,11 @@ const Index = () => {
     },
   });
 
-  // Filter posts based on search query
-  const filteredPosts = posts?.filter(post => {
-    if (!searchQuery) return true;
-    const searchLower = searchQuery.toLowerCase();
-    return (
-      post.title.toLowerCase().includes(searchLower) ||
-      post.excerpt.toLowerCase().includes(searchLower)
-    );
-  });
+  const { searchQuery, handleSearch, filteredPosts } = useSearch(posts || []);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header onSearch={setSearchQuery} searchQuery={searchQuery} />
+      <Header onSearch={handleSearch} searchQuery={searchQuery} />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-end mb-6">
           <Button
