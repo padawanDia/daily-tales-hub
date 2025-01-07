@@ -1,15 +1,15 @@
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Plus, Home } from "lucide-react";
-import { useState } from "react";
 import { PostCard, Post } from "@/components/PostCard";
 import { PostForm } from "@/components/PostForm";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../pages/Index";
 
 const Dashboard = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useLocalStorage<Post[]>("posts", []);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
