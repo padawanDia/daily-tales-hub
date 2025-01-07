@@ -4,7 +4,7 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 240 10% 3.9%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
@@ -32,14 +32,20 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-screen;
+    background: linear-gradient(102.3deg, rgba(147,39,143,1) 5.9%, rgba(234,172,232,1) 64%, rgba(246,219,245,1) 89%);
+    background-attachment: fixed;
   }
 }
 
 .post-card {
-  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 backdrop-blur-sm bg-white/80;
 }
 
 .category-badge {
   @apply px-3 py-1 rounded-full text-sm font-medium transition-colors;
+}
+
+.glass-panel {
+  @apply backdrop-blur-md bg-white/30 rounded-lg shadow-xl border border-white/20;
 }
