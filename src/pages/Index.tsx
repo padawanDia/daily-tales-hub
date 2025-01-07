@@ -1,14 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Header } from "@/components/Header";
 import { CategoryPanel } from "@/components/CategoryPanel";
 import { PostCard, Post } from "@/components/PostCard";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { PostForm } from "@/components/PostForm";
+import { useToast } from "@/hooks/use-toast";
+import { Session } from "@supabase/supabase-js";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [session, setSession] = useState<Session | null>(null);
+  const { toast } = useToast();
 
-  const { data: posts, isLoading, error } = useQuery({
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const { data: posts, isLoading, error, refetch } = useQuery({
     queryKey: ['posts', selectedCategory],
     queryFn: async () => {
       console.log('Fetching posts with category:', selectedCategory);
@@ -30,10 +51,10 @@ const Index = () => {
         id: post.id,
         title: post.title,
         excerpt: post.excerpt,
-        categoryId: post.category_id, // Map category_id to categoryId
-        date: new Date(post.created_at).toLocaleDateString(), // Format the date
+        categoryId: post.category_id,
+        date: new Date(post.created_at).toLocaleDateString(),
         author: post.author,
-        imageUrl: post.image_url || '' // Map image_url to imageUrl
+        imageUrl: post.image_url || ''
       }));
       
       console.log('Mapped posts:', mappedPosts);
@@ -41,10 +62,47 @@ const Index = () => {
     },
   });
 
-  console.log('Current posts:', posts);
-  console.log('Selected category:', selectedCategory);
-  console.log('Loading:', isLoading);
-  console.log('Error:', error);
+  const handleSavePost = async (post: Post) => {
+    if (!session) {
+      toast({
+        title: "Authentication required",
+        description: "Please login to create posts",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('posts')
+        .insert([
+          {
+            title: post.title,
+            excerpt: post.excerpt,
+            category_id: post.categoryId,
+            image_url: post.imageUrl,
+            author: session.user.id,
+          }
+        ]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: "Your post has been created",
+      });
+
+      // Refetch posts to update the list
+      refetch();
+    } catch (error) {
+      console.error('Error saving post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create post. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -56,6 +114,11 @@ const Index = () => {
               selectedCategory={selectedCategory}
               onSelectCategory={setSelectedCategory}
             />
+            {session && (
+              <div className="mt-6">
+                <PostForm onSave={handleSavePost} initialPost={null} />
+              </div>
+            )}
           </div>
           <div className="md:col-span-3">
             <div className="grid gap-6">
