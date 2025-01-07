@@ -7,22 +7,26 @@ import { supabase } from "@/integrations/supabase/client";
 import { PostForm } from "@/components/PostForm";
 import { useToast } from "@/hooks/use-toast";
 import { Session } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      console.log("Current session:", session);
     });
 
     // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
+      console.log("Auth state changed:", session);
       setSession(session);
     });
 
@@ -63,16 +67,18 @@ const Index = () => {
   });
 
   const handleSavePost = async (post: Post) => {
-    if (!session) {
+    if (!session?.user?.id) {
       toast({
         title: "Authentication required",
         description: "Please login to create posts",
         variant: "destructive",
       });
+      navigate("/login");
       return;
     }
 
     try {
+      console.log("Creating post with author:", session.user.id);
       const { data, error } = await supabase
         .from('posts')
         .insert([
@@ -81,11 +87,14 @@ const Index = () => {
             excerpt: post.excerpt,
             category_id: post.categoryId,
             image_url: post.imageUrl,
-            author: session.user.id,
+            author: session.user.id, // Explicitly set the author ID from the session
           }
         ]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error saving post:', error);
+        throw error;
+      }
 
       toast({
         title: "Success!",
