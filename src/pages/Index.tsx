@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Session } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -32,7 +34,7 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const { data: posts, isLoading, error, refetch } = useQuery({
+  const { data: posts, isLoading, error } = useQuery({
     queryKey: ['posts', selectedCategory],
     queryFn: async () => {
       console.log('Fetching posts with category:', selectedCategory);
@@ -69,6 +71,16 @@ const Index = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <main className="container mx-auto px-4 py-8">
+        <div className="flex justify-end mb-6">
+          <Button
+            onClick={() => navigate("/dashboard")}
+            className="gap-2"
+            variant="outline"
+          >
+            {session ? "Your Dashboard" : "Dashboard"}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
             <CategoryPanel
