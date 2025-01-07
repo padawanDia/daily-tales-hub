@@ -32,6 +32,8 @@ export const Header = () => {
       errorMessage = "Password should be at least 6 characters long.";
     } else if (error.message.includes("email_provider_disabled")) {
       errorMessage = "Email authentication is currently disabled. Please contact support.";
+    } else if (error.message.includes("invalid_credentials")) {
+      errorMessage = "Invalid email or password combination. Please check your credentials.";
     }
 
     toast({
@@ -72,6 +74,8 @@ export const Header = () => {
           title: "Signed out",
           description: "You have been signed out successfully",
         });
+      } else if (event === 'USER_UPDATED' && !session) {
+        handleAuthError(new Error("Invalid login credentials") as AuthError);
       }
     });
 
