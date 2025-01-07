@@ -4,7 +4,6 @@ import { CategoryPanel } from "@/components/CategoryPanel";
 import { PostCard, Post } from "@/components/PostCard";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { PostForm } from "@/components/PostForm";
 import { useToast } from "@/hooks/use-toast";
 import { Session } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
@@ -66,53 +65,6 @@ const Index = () => {
     },
   });
 
-  const handleSavePost = async (post: Post) => {
-    if (!session?.user?.id) {
-      toast({
-        title: "Authentication required",
-        description: "Please login to create posts",
-        variant: "destructive",
-      });
-      navigate("/login");
-      return;
-    }
-
-    try {
-      console.log("Creating post with author:", session.user.id);
-      const { data, error } = await supabase
-        .from('posts')
-        .insert([
-          {
-            title: post.title,
-            excerpt: post.excerpt,
-            category_id: post.categoryId,
-            image_url: post.imageUrl,
-            author: session.user.id, // Explicitly set the author ID from the session
-          }
-        ]);
-
-      if (error) {
-        console.error('Error saving post:', error);
-        throw error;
-      }
-
-      toast({
-        title: "Success!",
-        description: "Your post has been created",
-      });
-
-      // Refetch posts to update the list
-      refetch();
-    } catch (error) {
-      console.error('Error saving post:', error);
-      toast({
-        title: "Error",
-        description: "Failed to create post. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -123,11 +75,6 @@ const Index = () => {
               selectedCategory={selectedCategory}
               onSelectCategory={setSelectedCategory}
             />
-            {session && (
-              <div className="mt-6">
-                <PostForm onSave={handleSavePost} initialPost={null} />
-              </div>
-            )}
           </div>
           <div className="md:col-span-3">
             <div className="grid gap-6">
