@@ -3,7 +3,6 @@ import { Header } from "@/components/Header";
 import { CategoryPanel } from "@/components/CategoryPanel";
 import { PostCard, Post } from "@/components/PostCard";
 
-// Move this to a separate file later if needed
 export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T) => void] => {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
@@ -18,7 +17,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
             id: "1",
             title: "Delicious Mediterranean Cuisine",
             excerpt: "Explore the flavors of the Mediterranean with these authentic recipes.",
-            categoryId: "food",
+            categoryId: "4", // Food category
             date: "2024-02-20",
             author: "Chef Maria",
             imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
@@ -27,7 +26,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
             id: "2",
             title: "Meet Luna: The Playful Kitten",
             excerpt: "A heartwarming story about a rescued kitten finding her forever home.",
-            categoryId: "pets",
+            categoryId: "1", // Personal category
             date: "2024-02-19",
             author: "Pet Lover Sarah",
             imageUrl: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1"
@@ -36,7 +35,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
             id: "3",
             title: "Dragons of Komodo Island",
             excerpt: "A fascinating look at these ancient reptiles in their natural habitat.",
-            categoryId: "wildlife",
+            categoryId: "3", // Travel category
             date: "2024-02-18",
             author: "Wildlife Explorer John",
             imageUrl: "https://images.unsplash.com/photo-1487252665478-49b61b47f302"
@@ -45,7 +44,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
             id: "4",
             title: "Desert Wanderers: Life of Camels",
             excerpt: "Discover how these magnificent creatures survive in harsh desert conditions.",
-            categoryId: "wildlife",
+            categoryId: "3", // Travel category
             date: "2024-02-17",
             author: "Desert Guide Ahmed",
             imageUrl: "https://images.unsplash.com/photo-1469041797191-50ace28483c3"
@@ -54,7 +53,7 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
             id: "5",
             title: "Monkey Business",
             excerpt: "A day in the life of playful primates in their natural habitat.",
-            categoryId: "wildlife",
+            categoryId: "5", // Health category
             date: "2024-02-16",
             author: "Nature Photographer Lisa",
             imageUrl: "https://images.unsplash.com/photo-1501286353178-1ec881214838"
