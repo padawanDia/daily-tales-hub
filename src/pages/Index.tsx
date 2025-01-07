@@ -25,8 +25,19 @@ const Index = () => {
         throw error;
       }
       
-      console.log('Fetched posts:', data);
-      return data || [];
+      // Map the Supabase data to match our Post interface
+      const mappedPosts: Post[] = (data || []).map(post => ({
+        id: post.id,
+        title: post.title,
+        excerpt: post.excerpt,
+        categoryId: post.category_id,
+        date: post.date,
+        author: post.author,
+        imageUrl: post.image_url || ''
+      }));
+      
+      console.log('Mapped posts:', mappedPosts);
+      return mappedPosts;
     },
   });
 

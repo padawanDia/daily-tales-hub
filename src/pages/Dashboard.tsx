@@ -7,7 +7,7 @@ import { PostForm } from "@/components/PostForm";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "../pages/Index";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const examplePosts: Post[] = [
   {
