@@ -12,6 +12,7 @@ import { ArrowRight } from "lucide-react";
 
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [session, setSession] = useState<Session | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -67,9 +68,19 @@ const Index = () => {
     },
   });
 
+  // Filter posts based on search query
+  const filteredPosts = posts?.filter(post => {
+    if (!searchQuery) return true;
+    const searchLower = searchQuery.toLowerCase();
+    return (
+      post.title.toLowerCase().includes(searchLower) ||
+      post.excerpt.toLowerCase().includes(searchLower)
+    );
+  });
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header onSearch={setSearchQuery} searchQuery={searchQuery} />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-end mb-6">
           <Button
@@ -98,16 +109,18 @@ const Index = () => {
                 <div className="text-center py-12">
                   <p className="text-red-500">Error loading posts. Please try again later.</p>
                 </div>
-              ) : posts && posts.length > 0 ? (
-                posts.map((post) => (
+              ) : filteredPosts && filteredPosts.length > 0 ? (
+                filteredPosts.map((post) => (
                   <PostCard key={post.id} post={post} />
                 ))
               ) : (
                 <div className="text-center py-12">
                   <p className="text-gray-500">
-                    {selectedCategory 
-                      ? "No posts found in this category."
-                      : "No posts available."}
+                    {searchQuery 
+                      ? "No posts found matching your search."
+                      : selectedCategory 
+                        ? "No posts found in this category."
+                        : "No posts available."}
                   </p>
                 </div>
               )}
