@@ -15,48 +15,48 @@ export const useLocalStorage = <T,>(key: string, initialValue: T): [T, (value: T
         const examplePosts: Post[] = [
           {
             id: "1",
-            title: "Delicious Mediterranean Cuisine",
-            excerpt: "Explore the flavors of the Mediterranean with these authentic recipes.",
-            categoryId: "4", // Food category
+            title: "Journey Through the Amazon",
+            excerpt: "Exploring the diverse wildlife and indigenous cultures of the Amazon rainforest.",
+            categoryId: "3", // Travel category
             date: "2024-02-20",
-            author: "Chef Maria",
-            imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
+            author: "Adventure Explorer",
+            imageUrl: "https://images.unsplash.com/photo-1516426122078-c23e76319801"
           },
           {
             id: "2",
-            title: "Meet Luna: The Playful Kitten",
-            excerpt: "A heartwarming story about a rescued kitten finding her forever home.",
-            categoryId: "1", // Personal category
+            title: "Modern Office Productivity",
+            excerpt: "Tips and tricks for maintaining productivity in the modern workplace.",
+            categoryId: "2", // Work category
             date: "2024-02-19",
-            author: "Pet Lover Sarah",
-            imageUrl: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1"
+            author: "Productivity Pro",
+            imageUrl: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc"
           },
           {
             id: "3",
-            title: "Dragons of Komodo Island",
-            excerpt: "A fascinating look at these ancient reptiles in their natural habitat.",
-            categoryId: "3", // Travel category
+            title: "Healthy Living Guide",
+            excerpt: "Essential tips for maintaining a healthy lifestyle in the modern world.",
+            categoryId: "5", // Health category
             date: "2024-02-18",
-            author: "Wildlife Explorer John",
-            imageUrl: "https://images.unsplash.com/photo-1487252665478-49b61b47f302"
+            author: "Wellness Coach",
+            imageUrl: "https://images.unsplash.com/photo-1498837167922-ddd27525d352"
           },
           {
             id: "4",
-            title: "Desert Wanderers: Life of Camels",
-            excerpt: "Discover how these magnificent creatures survive in harsh desert conditions.",
-            categoryId: "3", // Travel category
+            title: "My Pet Stories",
+            excerpt: "Heartwarming stories about the special bond between humans and their pets.",
+            categoryId: "1", // Personal category
             date: "2024-02-17",
-            author: "Desert Guide Ahmed",
-            imageUrl: "https://images.unsplash.com/photo-1469041797191-50ace28483c3"
+            author: "Pet Lover",
+            imageUrl: "https://images.unsplash.com/photo-1450778869180-41d0601e046e"
           },
           {
             id: "5",
-            title: "Monkey Business",
-            excerpt: "A day in the life of playful primates in their natural habitat.",
-            categoryId: "5", // Health category
+            title: "Culinary Adventures",
+            excerpt: "Discovering unique flavors and cooking techniques from around the world.",
+            categoryId: "4", // Food category
             date: "2024-02-16",
-            author: "Nature Photographer Lisa",
-            imageUrl: "https://images.unsplash.com/photo-1501286353178-1ec881214838"
+            author: "Food Explorer",
+            imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836"
           }
         ];
         window.localStorage.setItem(key, JSON.stringify(examplePosts));
