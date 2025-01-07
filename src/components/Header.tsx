@@ -28,6 +28,10 @@ export const Header = () => {
       errorMessage = "Invalid email or password. Please try again.";
     } else if (error.message.includes("Email not confirmed")) {
       errorMessage = "Please verify your email address before signing in.";
+    } else if (error.message.includes("weak_password")) {
+      errorMessage = "Password should be at least 6 characters long.";
+    } else if (error.message.includes("email_provider_disabled")) {
+      errorMessage = "Email authentication is currently disabled. Please contact support.";
     }
 
     toast({
@@ -126,7 +130,6 @@ export const Header = () => {
                 appearance={{ theme: ThemeSupa }}
                 theme="light"
                 providers={[]}
-                onError={handleAuthError}
               />
             </DialogContent>
           </Dialog>
