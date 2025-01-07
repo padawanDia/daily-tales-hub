@@ -34,11 +34,17 @@ export const PostForm = ({ onSave, initialPost }: PostFormProps) => {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    onSave({
-      ...values,
+    const post: Post = {
       id: initialPost?.id || "",
+      title: values.title,
+      excerpt: values.excerpt,
+      categoryId: values.categoryId,
+      imageUrl: values.imageUrl || "",
+      author: values.author,
       date: initialPost?.date || new Date().toISOString().split("T")[0],
-    });
+    };
+    
+    onSave(post);
     form.reset();
   };
 
