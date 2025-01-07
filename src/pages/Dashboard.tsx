@@ -9,8 +9,56 @@ import { useToast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "../pages/Index";
 
+const examplePosts: Post[] = [
+  {
+    id: "1",
+    title: "Delicious Mediterranean Cuisine",
+    excerpt: "Explore the flavors of the Mediterranean with these authentic recipes.",
+    categoryId: "4", // Food category
+    date: "2024-02-20",
+    author: "Chef Maria",
+    imageUrl: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9"
+  },
+  {
+    id: "2",
+    title: "Meet Luna: The Playful Kitten",
+    excerpt: "A heartwarming story about a rescued kitten finding her forever home.",
+    categoryId: "1", // Personal category
+    date: "2024-02-19",
+    author: "Pet Lover Sarah",
+    imageUrl: "https://images.unsplash.com/photo-1535268647677-300dbf3d78d1"
+  },
+  {
+    id: "3",
+    title: "Dragons of Komodo Island",
+    excerpt: "A fascinating look at these ancient reptiles in their natural habitat.",
+    categoryId: "3", // Travel category
+    date: "2024-02-18",
+    author: "Wildlife Explorer John",
+    imageUrl: "https://images.unsplash.com/photo-1487252665478-49b61b47f302"
+  },
+  {
+    id: "4",
+    title: "Desert Wanderers: Life of Camels",
+    excerpt: "Discover how these magnificent creatures survive in harsh desert conditions.",
+    categoryId: "3", // Travel category
+    date: "2024-02-17",
+    author: "Desert Guide Ahmed",
+    imageUrl: "https://images.unsplash.com/photo-1469041797191-50ace28483c3"
+  },
+  {
+    id: "5",
+    title: "Monkey Business",
+    excerpt: "A day in the life of playful primates in their natural habitat.",
+    categoryId: "5", // Health category
+    date: "2024-02-16",
+    author: "Nature Photographer Lisa",
+    imageUrl: "https://images.unsplash.com/photo-1501286353178-1ec881214838"
+  }
+];
+
 const Dashboard = () => {
-  const [posts, setPosts] = useLocalStorage<Post[]>("posts", []);
+  const [posts, setPosts] = useLocalStorage<Post[]>("posts", examplePosts);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const { toast } = useToast();
   const navigate = useNavigate();
