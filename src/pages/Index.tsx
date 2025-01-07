@@ -10,7 +10,8 @@ const samplePosts: Post[] = [
     excerpt: "How I start my day with mindfulness and productivity...",
     categoryId: "1",
     date: "2024-02-20",
-    author: "Alice Johnson"
+    author: "Alice Johnson",
+    imageUrl: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
   },
   {
     id: "2",
@@ -18,7 +19,8 @@ const samplePosts: Post[] = [
     excerpt: "Best practices for staying productive while working from home...",
     categoryId: "2",
     date: "2024-02-19",
-    author: "Bob Smith"
+    author: "Bob Smith",
+    imageUrl: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d"
   },
   {
     id: "3",
@@ -26,7 +28,8 @@ const samplePosts: Post[] = [
     excerpt: "Exploring the city of lights and discovering hidden gems...",
     categoryId: "3",
     date: "2024-02-18",
-    author: "Charlie Brown"
+    author: "Charlie Brown",
+    imageUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
   }
 ];
 

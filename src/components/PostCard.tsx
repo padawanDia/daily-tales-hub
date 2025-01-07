@@ -7,6 +7,7 @@ export interface Post {
   categoryId: string;
   date: string;
   author: string;
+  imageUrl: string;
 }
 
 interface PostCardProps {
@@ -26,6 +27,15 @@ export const PostCard = ({ post }: PostCardProps) => {
           </span>
         )}
       </div>
+      {post.imageUrl && (
+        <div className="mb-4 overflow-hidden rounded-lg">
+          <img
+            src={post.imageUrl}
+            alt={post.title}
+            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          />
+        </div>
+      )}
       <p className="text-gray-600 mb-4">{post.excerpt}</p>
       <div className="flex justify-between items-center text-sm text-gray-500">
         <span>{post.author}</span>
