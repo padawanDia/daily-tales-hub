@@ -62,12 +62,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header onSearch={handleSearch} searchQuery={searchQuery} />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold">Your Posts</h1>
+            <h1 className="text-2xl font-bold text-foreground">Your Posts</h1>
             <Button variant="outline" onClick={handleSignOut}>
               Sign Out
             </Button>
@@ -75,7 +75,7 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="md:col-span-1">
+          <div className="md:col-span-1 glass-morphism rounded-lg p-6">
             <PostForm onSave={handleSave} initialPost={editingPost} />
           </div>
           <div className="md:col-span-2">
@@ -103,8 +103,8 @@ const Dashboard = () => {
                   </div>
                 ))
               ) : (
-                <div className="text-center py-12">
-                  <p className="text-gray-500">
+                <div className="text-center py-12 glass-morphism rounded-lg">
+                  <p className="text-muted-foreground">
                     {searchQuery 
                       ? "No posts found matching your search."
                       : "No posts available. Create your first post!"}
