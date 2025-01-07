@@ -1,6 +1,7 @@
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Plus, Home } from "lucide-react";
+import { useState } from "react";
 import { PostCard, Post } from "@/components/PostCard";
 import { PostForm } from "@/components/PostForm";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
