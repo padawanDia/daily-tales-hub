@@ -30,10 +30,10 @@ const Index = () => {
         id: post.id,
         title: post.title,
         excerpt: post.excerpt,
-        categoryId: post.category_id,
-        date: post.date,
+        categoryId: post.category_id, // Map category_id to categoryId
+        date: new Date(post.created_at).toLocaleDateString(), // Format the date
         author: post.author,
-        imageUrl: post.image_url || ''
+        imageUrl: post.image_url || '' // Map image_url to imageUrl
       }));
       
       console.log('Mapped posts:', mappedPosts);
