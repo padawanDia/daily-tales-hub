@@ -60,6 +60,7 @@ const examplePosts: Post[] = [
 const Dashboard = () => {
   const [posts, setPosts] = useLocalStorage<Post[]>("posts", examplePosts);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -92,9 +93,13 @@ const Dashboard = () => {
     });
   };
 
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+      <Header onSearch={handleSearch} searchQuery={searchQuery} />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center gap-4">
