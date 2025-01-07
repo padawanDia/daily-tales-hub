@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { AuthError } from "@supabase/supabase-js";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -19,22 +20,53 @@ export const Header = () => {
   const [session, setSession] = useState(null);
   const { toast } = useToast();
 
+  const handleAuthError = (error: AuthError) => {
+    console.error("Authentication error:", error);
+    let errorMessage = "An error occurred during authentication";
+    
+    if (error.message.includes("Invalid login credentials")) {
+      errorMessage = "Invalid email or password. Please try again.";
+    } else if (error.message.includes("Email not confirmed")) {
+      errorMessage = "Please verify your email address before signing in.";
+    }
+
+    toast({
+      title: "Authentication Error",
+      description: errorMessage,
+      variant: "destructive",
+    });
+  };
+
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      if (error) {
+        console.error("Error getting session:", error);
+        handleAuthError(error);
+        return;
+      }
+      console.log("Initial session:", session);
       setSession(session);
     });
 
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state change event:", event);
+      console.log("New session state:", session);
+      
       setSession(session);
       if (session) {
         setOpen(false);
         toast({
           title: "Login successful!",
           description: "Welcome back to Post your day",
+        });
+      } else if (event === 'SIGNED_OUT') {
+        toast({
+          title: "Signed out",
+          description: "You have been signed out successfully",
         });
       }
     });
@@ -43,11 +75,16 @@ export const Header = () => {
   }, [toast]);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Signed out",
-      description: "You have been signed out successfully",
-    });
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error signing out:", error);
+      toast({
+        title: "Error",
+        description: "Failed to sign out. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
   };
 
   return (
@@ -89,6 +126,7 @@ export const Header = () => {
                 appearance={{ theme: ThemeSupa }}
                 theme="light"
                 providers={[]}
+                onError={handleAuthError}
               />
             </DialogContent>
           </Dialog>
