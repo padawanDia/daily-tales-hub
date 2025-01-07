@@ -1,16 +1,18 @@
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, Home } from "lucide-react";
 import { useState } from "react";
 import { PostCard, Post } from "@/components/PostCard";
 import { PostForm } from "@/components/PostForm";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useToast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleSavePost = (post: Post) => {
     if (editingPost) {
@@ -46,7 +48,18 @@ const Dashboard = () => {
       <Header />
       <main className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold">Your Posts</h2>
+          <div className="flex items-center gap-4">
+            <h2 className="text-2xl font-bold">Your Posts</h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/")}
+              className="flex items-center gap-2"
+            >
+              <Home className="w-4 h-4" />
+              Go Home
+            </Button>
+          </div>
           <Sheet>
             <SheetTrigger asChild>
               <Button>
